@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KokaarWebApi.DataAccess\KokaarWebApi.DataAccess.csproj" />
+    <ProjectReference Include="..\KokaarWebApi.DependencyResolver\KokaarWebApi.DependencyResolver.csproj" />
     <ProjectReference Include="..\KokaarWebApi.Utility\KokaarWebApi.Utility.csproj" />
     <ProjectReference Include="..\KokaarWepApi.Service\KokaarWepApi.Service.csproj" />
   </ItemGroup>

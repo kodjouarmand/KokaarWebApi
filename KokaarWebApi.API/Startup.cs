@@ -1,11 +1,11 @@
 using KokaarWebApi.DataAccess.Data;
 using KokaarWebApi.DataAccess.Repository.Abstract;
 using KokaarWebApi.DataAccess.Repository.Concrete;
-using KokaarWebApi.Utility.Infrastructure;
 using KokaarWepApi.Service.Concrete;
+using Microsoft.EntityFrameworkCore;
+using KokaarWebApi.DependencyResolver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +25,7 @@ namespace KokaarWebApi.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            CustomeDependencyResolver.InjectDependencies(services, Configuration.GetConnectionString("AppConnectionString"));
+            CustomDependencyResolver.InjectDependencies(services, Configuration.GetConnectionString("AppConnectionString"));
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppConnectionString")));
             //services.AddScoped<ICustomerService, CustomerService>();

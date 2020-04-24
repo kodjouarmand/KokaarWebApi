@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KokaarWebApi.DataAccess\KokaarWebApi.DataAccess.csproj" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\KokaarWebApi.Domain\KokaarWebApi.Domain.csproj" />
+    <ProjectReference Include="..\KokaarWebApi.Utility\KokaarWebApi.Utility.csproj" />
   </ItemGroup>
 
 </Project>

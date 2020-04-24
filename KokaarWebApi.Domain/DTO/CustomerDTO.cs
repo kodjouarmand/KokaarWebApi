@@ -4,11 +4,10 @@ using System.Text;
 
 namespace KokaarWebApi.Domain.DTO
 {
-    class CustomerDTO
+    public class CustomerDTO : BaseDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public int Age { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string PhoneNumber { get; set; }

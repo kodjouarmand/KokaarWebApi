@@ -11,7 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KokaarWebApi.DataAccess\KokaarWebApi.DataAccess.csproj" />
-    <ProjectReference Include="..\KokaarWepApi.Service\KokaarWepApi.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helper\" />
   </ItemGroup>
 
 </Project>

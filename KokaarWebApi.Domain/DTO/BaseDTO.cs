@@ -1,17 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace KokaarWebApi.Domain.Entities
+namespace KokaarWebApi.Domain.DTO
 {
-    public abstract class BaseEntity
+    public abstract class BaseDTO
     {
-        [Key]
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public string CreationUser { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public string UpdateUser { get; set; }
-        [Timestamp]
+        public string UpdateUser { get; set; }        
         public byte[] RowVersion { get; set; }
     }
 }

@@ -1,7 +1,9 @@
-﻿using KokaarWebApi.DataAccess.Repository.Abstract;
+﻿using FluentValidation.Results;
+using KokaarWebApi.DataAccess.Repository.Abstract;
 using KokaarWebApi.Domain.Entities;
 using KokaarWepApi.Service.Abstract;
-using KokaarWepApi.Service.Core;
+using KokaarWepApi.Service.Validations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,30 +18,17 @@ namespace KokaarWepApi.Service.Concrete
         private readonly IUnitOfWork _unitOfWork;
         public CustomerService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));            
         }
 
-        public Customer Get(int id)
+        public Customer Get(int customerId)
         {
-            return _unitOfWork.CustomerRepository.Get(id);
+            return _unitOfWork.CustomerRepository.Get(customerId);
         }
 
         public IEnumerable<Customer> GetAll()
         {
-            return _unitOfWork.CustomerRepository.GetAll();
-        }
-
-        private bool IsValidForSave(ref StringBuilder validationErrors, Customer customer)
-        {
-            string separator = "; ";
-
-            if (string.IsNullOrWhiteSpace(customer.Name))
-                validationErrors.Append($"Name is required{separator}");    
-            
-            if (string.IsNullOrWhiteSpace(customer.Email))
-                validationErrors.Append($"Email is required{separator}");
-            
-            return validationErrors.Length == 0;
+            return _unitOfWork.CustomerRepository.GetAll();            
         }
 
         private bool IsNewRecord(Customer customer)
@@ -47,9 +36,18 @@ namespace KokaarWepApi.Service.Concrete
             return customer.Id == 0;
         }
 
+        private bool IsValidForSave(ref ValidationResult validationResult, Customer customer)
+        {
+            validationResult = new CustomerValidator().Validate(customer);
+
+            return validationResult.IsValid;
+        }        
+
         public bool Save(ref StringBuilder validationErrors, Customer customer, string user)
         {
-            if (IsValidForSave(ref validationErrors, customer))
+            ValidationResult validationResult = new ValidationResult();
+
+            if (IsValidForSave(ref validationResult, customer))
             {
                 try
                 {
@@ -68,28 +66,36 @@ namespace KokaarWepApi.Service.Concrete
                     _unitOfWork.Save();
                     return true;
                 }
+                catch (DbUpdateException)
+                {
+                    validationErrors.Append(@"The record you attempted to edit was modified by another user after you got the original value. The edit operation has been canceled");
+                }
                 catch (Exception ex)
                 {
-                    validationErrors.Append(ex.Message);
-                    return false;
+                    validationErrors.Append(ex.Message);                   
                 }
+                return false;
             }
             else
             {
+                foreach (var error in validationResult.Errors)
+                {
+                    validationErrors.Append(error.ErrorMessage + "; ");
+                }
                 return false;
             }
         }
 
-        private bool IsValidForDelete(ref StringBuilder validationErrors, Customer customer)
+        private bool IsValidForDelete(ref StringBuilder validationErrors)
         {
             return validationErrors.Length == 0;
         }
 
-        public bool Delete(ref StringBuilder validationErrors, Customer customer)
+        public bool Delete(ref StringBuilder validationErrors, int customerId)
         {
-            if (IsValidForDelete(ref validationErrors, customer))
+            if (IsValidForDelete(ref validationErrors))
             {
-                _unitOfWork.CustomerRepository.Remove(customer.Id);
+                _unitOfWork.CustomerRepository.Remove(customerId);
                 _unitOfWork.Save();
                 return true;
             }
