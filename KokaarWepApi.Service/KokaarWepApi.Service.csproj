@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KokaarWebApi.DataAccess\KokaarWebApi.DataAccess.csproj" />
+    <ProjectReference Include="..\KokaarWebApi.Domain\KokaarWebApi.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
