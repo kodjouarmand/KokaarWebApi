@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using KokaarWebApi.DataAccess.Data;
-using KokaarWebApi.DataAccess.Repository.Abstract;
-using KokaarWebApi.DataAccess.Repository.Concrete;
-using KokaarWepApi.Service.Abstract;
-using KokaarWepApi.Service.Concrete;
+using KokaarWebApi.DataAccess.Repository.Contracts;
+using KokaarWebApi.DataAccess.Repository.Implementations;
+using KokaarWepApi.Service.Contracts;
+using KokaarWepApi.Service.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

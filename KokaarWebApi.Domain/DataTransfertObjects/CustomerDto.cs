@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KokaarWebApi.Domain.DTO
+﻿namespace KokaarWebApi.Domain.DataTransfertObjects
 {
-    public class CustomerDTO : BaseDTO
+    public class CustomerDto : BaseDto
     {
         public string Name { get; set; }
         public int Age { get; set; }

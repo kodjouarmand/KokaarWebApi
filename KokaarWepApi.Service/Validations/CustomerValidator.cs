@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FluentValidation;
 using KokaarWebApi.Domain.Entities;
 
 namespace KokaarWepApi.Service.Validations
-{   
+{
     public class CustomerValidator : AbstractValidator<Customer>
     {
         public CustomerValidator()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWepApi.Service.Abstract
+namespace KokaarWepApi.Service.Contracts
 {
     public interface ICustomerService : IBaseService<Customer>
     {        

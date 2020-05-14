@@ -1,9 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace KokaarWebApi.Domain.DTO
+namespace KokaarWebApi.Domain.DataTransfertObjects
 {
-    public abstract class BaseDTO
+    public abstract class BaseDto
     {
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }

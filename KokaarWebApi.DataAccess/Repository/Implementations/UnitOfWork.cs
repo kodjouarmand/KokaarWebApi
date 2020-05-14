@@ -1,7 +1,7 @@
 ﻿using KokaarWebApi.DataAccess.Data;
-using KokaarWebApi.DataAccess.Repository.Abstract;
+using KokaarWebApi.DataAccess.Repository.Contracts;
 
-namespace KokaarWebApi.DataAccess.Repository.Concrete
+namespace KokaarWebApi.DataAccess.Repository.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {

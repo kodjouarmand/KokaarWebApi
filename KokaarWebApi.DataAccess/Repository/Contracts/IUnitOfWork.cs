@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWebApi.DataAccess.Repository.Abstract
+namespace KokaarWebApi.DataAccess.Repository.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {

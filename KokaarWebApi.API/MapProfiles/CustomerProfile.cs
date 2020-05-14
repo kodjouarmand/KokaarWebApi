@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using KokaarWebApi.Domain.Entities;
-using KokaarWebApi.Domain.DTO;
+using KokaarWebApi.Domain.DataTransfertObjects;
 using KokaarWebApi.Utility.Extentions;
 
 namespace KokaarWepApi.Service.MapProfiles
@@ -9,7 +9,7 @@ namespace KokaarWepApi.Service.MapProfiles
     {
         public CustomerProfile()
         {
-            CreateMap<Customer, CustomerDTO>()
+            CreateMap<Customer, CustomerDto>()
                 .ForMember(
                     dest => dest.Age,
                     opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));

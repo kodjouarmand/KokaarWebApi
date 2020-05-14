@@ -1,14 +1,14 @@
 ﻿using FluentValidation.Results;
-using KokaarWebApi.DataAccess.Repository.Abstract;
+using KokaarWebApi.DataAccess.Repository.Contracts;
 using KokaarWebApi.Domain.Entities;
-using KokaarWepApi.Service.Abstract;
+using KokaarWepApi.Service.Contracts;
 using KokaarWepApi.Service.Validations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWepApi.Service.Concrete
+namespace KokaarWepApi.Service.Implementations
 {
     [Serializable()]
     public class CustomerService : ICustomerService
@@ -21,20 +21,12 @@ namespace KokaarWepApi.Service.Concrete
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));            
         }
 
-        public Customer Get(int customerId)
-        {
-            return _unitOfWork.CustomerRepository.Get(customerId);
-        }
+        public Customer Get(int customerId) => _unitOfWork.CustomerRepository.Get(customerId);
+        
+        public IEnumerable<Customer> GetAll() =>  _unitOfWork.CustomerRepository.GetAll();            
+        
 
-        public IEnumerable<Customer> GetAll()
-        {
-            return _unitOfWork.CustomerRepository.GetAll();            
-        }
-
-        private bool IsNewRecord(Customer customer)
-        {
-            return customer.Id == 0;
-        }
+        private bool IsNewRecord(Customer customer) =>  customer.Id == 0;        
 
         private bool IsValidForSave(ref ValidationResult validationResult, Customer customer)
         {

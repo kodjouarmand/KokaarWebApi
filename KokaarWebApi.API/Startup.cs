@@ -1,7 +1,7 @@
 using KokaarWebApi.DataAccess.Data;
-using KokaarWebApi.DataAccess.Repository.Abstract;
-using KokaarWebApi.DataAccess.Repository.Concrete;
-using KokaarWepApi.Service.Concrete;
+using KokaarWebApi.DataAccess.Repository.Contracts;
+using KokaarWebApi.DataAccess.Repository.Implementations;
+using KokaarWepApi.Service.Implementations;
 using Microsoft.EntityFrameworkCore;
 using KokaarWebApi.DependencyResolver;
 using Microsoft.AspNetCore.Builder;

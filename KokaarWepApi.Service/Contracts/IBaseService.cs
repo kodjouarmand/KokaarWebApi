@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWepApi.Service.Abstract
+namespace KokaarWepApi.Service.Contracts
 {
     public interface IBaseService<T> where T : class
     {

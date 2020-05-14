@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace KokaarWebApi.DataAccess.Repository.Abstract
+namespace KokaarWebApi.DataAccess.Repository.Contracts
 {
     public interface IBaseRepository<T> where T : class
     {
