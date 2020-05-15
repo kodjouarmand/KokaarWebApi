@@ -2,8 +2,8 @@
 using KokaarWebApi.DataAccess.Data;
 using KokaarWebApi.DataAccess.Repository.Contracts;
 using KokaarWebApi.DataAccess.Repository.Implementations;
-using KokaarWepApi.Service.Contracts;
-using KokaarWepApi.Service.Implementations;
+using KokaarWepApi.Business.Contracts;
+using KokaarWepApi.Business.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

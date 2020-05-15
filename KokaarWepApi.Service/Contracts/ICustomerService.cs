@@ -1,11 +1,12 @@
-﻿using KokaarWebApi.Domain.Entities;
+﻿using KokaarWepApi.Domain.DTO;
 using System.Collections.Generic;
-using System.Text;
 
-namespace KokaarWepApi.Service.Contracts
+namespace KokaarWepApi.Business.Contracts
 {
-    public interface ICustomerService : IBaseService<Customer>
-    {        
+    public interface ICustomerService : IBaseService<CustomerDTO>
+    {
 
+        //CustomerBO Get(int id);
+        //IEnumerable<CustomerBO> GetAll();
     }
 }

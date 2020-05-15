@@ -11,14 +11,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\KokaarWebApi.DataAccess\KokaarWebApi.DataAccess.csproj" />
     <ProjectReference Include="..\KokaarWebApi.DependencyResolver\KokaarWebApi.DependencyResolver.csproj" />
     <ProjectReference Include="..\KokaarWebApi.Utility\KokaarWebApi.Utility.csproj" />
-    <ProjectReference Include="..\KokaarWepApi.Service\KokaarWepApi.Service.csproj" />
+    <ProjectReference Include="..\KokaarWepApi.Service\KokaarWepApi.Business.csproj" />
   </ItemGroup>
 
 

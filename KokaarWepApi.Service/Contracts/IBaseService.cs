@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using KokaarWebApi.Domain.Entities;
+using KokaarWepApi.Domain.DTO;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWepApi.Service.Contracts
+namespace KokaarWepApi.Business.Contracts
 {
-    public interface IBaseService<T> where T : class
+    public interface IBaseService<TBusinessObject> where TBusinessObject : BaseDTO
     {
-        T Get(int id);
-        IEnumerable<T> GetAll();
-        bool Save(ref StringBuilder validationErrors, T entity, string user);
-        bool Delete(ref StringBuilder validationErrors, int id);
+        TBusinessObject Get(int id);
+        IEnumerable<TBusinessObject> GetAll();
+        int Add(ref StringBuilder validationErrors, TBusinessObject businessObject);
+        bool Update(ref StringBuilder validationErrors, TBusinessObject businessObject);
+        bool Delete(ref StringBuilder validationErrors, int businessObjectId);
     }
 }

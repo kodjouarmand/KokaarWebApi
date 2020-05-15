@@ -1,102 +1,117 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
 using KokaarWebApi.DataAccess.Repository.Contracts;
 using KokaarWebApi.Domain.Entities;
-using KokaarWepApi.Service.Contracts;
-using KokaarWepApi.Service.Validations;
-using Microsoft.EntityFrameworkCore;
+using KokaarWepApi.Business.Contracts;
+using KokaarWepApi.Business.Validations;
+using KokaarWepApi.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KokaarWepApi.Service.Implementations
+namespace KokaarWepApi.Business.Implementations
 {
     [Serializable()]
-    public class CustomerService : ICustomerService
+    public class CustomerService : BaseService<CustomerDTO, Customer>, ICustomerService
     {
         #region Overrides
 
-        private readonly IUnitOfWork _unitOfWork;
-        public CustomerService(IUnitOfWork unitOfWork)
+        //public CustomerService() { }
+
+        public CustomerService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+
+        public override CustomerDTO Get(int customerId)
         {
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));            
+            var customer = _unitOfWork.CustomerRepository.Get(customerId);
+            return MapEntityToBusinesObject(customer);
         }
 
-        public Customer Get(int customerId) => _unitOfWork.CustomerRepository.Get(customerId);
-        
-        public IEnumerable<Customer> GetAll() =>  _unitOfWork.CustomerRepository.GetAll();            
-        
-
-        private bool IsNewRecord(Customer customer) =>  customer.Id == 0;        
-
-        private bool IsValidForSave(ref ValidationResult validationResult, Customer customer)
+        public override IEnumerable<CustomerDTO> GetAll()
         {
-            validationResult = new CustomerValidator().Validate(customer);
+            var customers = _unitOfWork.CustomerRepository.GetAll();
+            return MapEntitiesToBusinesObjects(customers);
+        }
 
-            return validationResult.IsValid;
-        }        
-
-        public bool Save(ref StringBuilder validationErrors, Customer customer, string user)
+        protected override void ValidateAdd(ref StringBuilder validationErrors, CustomerDTO customerBO)
         {
-            ValidationResult validationResult = new ValidationResult();
-
-            if (IsValidForSave(ref validationResult, customer))
+            if (!customerBO.IsNew())
             {
-                try
-                {
-                    if (IsNewRecord(customer))
-                    {
-                        customer.CreationDate = DateTime.Now;
-                        customer.CreationUser = user;
-                        _unitOfWork.CustomerRepository.Add(customer);
-                    }
-                    else
-                    {
-                        customer.UpdateDate = DateTime.Now;
-                        customer.UpdateUser = user;
-                        _unitOfWork.CustomerRepository.Update(customer);
-                    }
-                    _unitOfWork.Save();
-                    return true;
-                }
-                catch (DbUpdateException)
-                {
-                    validationErrors.Append(@"The record you attempted to edit was modified by another user after you got the original value. The edit operation has been canceled");
-                }
-                catch (Exception ex)
-                {
-                    validationErrors.Append(ex.Message);                   
-                }
-                return false;
+                validationErrors.Append("La ressource que vous souhaitez ajouter existe déjà.");
+                return;
+            }
+            var validationResult = new CustomerValidator().Validate(customerBO);
+            validationErrors.Append(validationResult.ToString());
+        }
+
+        protected override void ValidateUpdate(ref StringBuilder validationErrors, CustomerDTO customerBO)
+        {
+            if (customerBO.IsNew())
+            {
+                validationErrors.Append("La ressource que vous souhaitez mettre à jour n'existe pas.");
+                return;
+            }
+
+            var validationResult = new CustomerValidator().Validate(customerBO);
+            validationErrors.Append(validationResult.ToString());
+        }
+
+        protected override bool Validate(ref StringBuilder validationErrors, CustomerDTO customerBO, ref Customer customer)
+        {
+            if (customerBO.IsNew())
+            {
+                ValidateAdd(ref validationErrors, customerBO);
             }
             else
             {
-                foreach (var error in validationResult.Errors)
-                {
-                    validationErrors.Append(error.ErrorMessage + "; ");
-                }
-                return false;
+                ValidateUpdate(ref validationErrors, customerBO);
             }
+
+            if (validationErrors.Length == 0)
+            {
+                MapBusinessObjectToEntity(ref customer, customerBO);
+            }
+
+            return validationErrors.Length == 0;
         }
 
-        private bool IsValidForDelete(ref StringBuilder validationErrors)
+        public override int Add(ref StringBuilder validationErrors, CustomerDTO customerBO)
+        {
+            Customer customer = new Customer();
+            if (Validate(ref validationErrors, customerBO, ref customer))
+            {
+                _unitOfWork.CustomerRepository.Add(customer);
+                _unitOfWork.Save();
+                return customer.Id;
+            }
+            return 0;
+        }
+
+        public override bool Update(ref StringBuilder validationErrors, CustomerDTO customerBO)
+        {
+            Customer customer = new Customer();
+            if (Validate(ref validationErrors, customerBO, ref customer))
+            {
+                _unitOfWork.CustomerRepository.Update(customer);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool ValidateDelete(ref StringBuilder validationErrors, CustomerDTO customerBO = null)
         {
             return validationErrors.Length == 0;
         }
 
-        public bool Delete(ref StringBuilder validationErrors, int customerId)
+        public override bool Delete(ref StringBuilder validationErrors, int customerId)
         {
-            if (IsValidForDelete(ref validationErrors))
+            if (ValidateDelete(ref validationErrors))
             {
                 _unitOfWork.CustomerRepository.Remove(customerId);
                 _unitOfWork.Save();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
-
         #endregion Overrides
 
     }

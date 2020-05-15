@@ -7,11 +7,11 @@ namespace KokaarWebApi.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
         public string CreationUser { get; set; }
         public DateTime? UpdateDate { get; set; }
         public string UpdateUser { get; set; }
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
+        //[Timestamp]
+        //public byte[] RowVersion { get; set; }
     }
 }

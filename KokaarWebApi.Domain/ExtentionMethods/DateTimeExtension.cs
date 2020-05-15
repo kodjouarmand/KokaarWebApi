@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace KokaarWebApi.Utility.Extentions
+namespace KokaarWebApi.Domain.ExtentionMethods
 {
     public static class DateTimeExtension
     {
